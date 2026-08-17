@@ -5,10 +5,10 @@
     "type": "wordpress-plugin",
     "authors": [
         {
-            "name": "Syde GmbH",
-            "email": "hello@syde.com",
+            "name": "Mahbubur Rahman",
+            "email": "m.rahman@syde.com",
             "homepage": "https://syde.com/",
-            "role": "Company"
+            "role": "Software Engineer"
         }
     ],
     "require": {
@@ -54,5 +54,14 @@
         "phpunit/phpunit": "^11",
         "brain/monkey": "^2.6",
         "phpstan/phpstan-mockery": "^2.0"
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.packagist.com/inpsyde/"
+        },
+        {
+            "packagist.org": false
+        }
+    ]
 }
