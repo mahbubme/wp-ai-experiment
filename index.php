@@ -5,6 +5,8 @@
  * Plugin URI:  https://github.com/inpsyde
  * Description: WordPress AI experiment plugin
  * Version:     1.0.0
+ * Requires at least: 6.9
+ * Requires PHP: 8.2
  * Author:      Syde GmbH
  * Author URI:  https://syde.com/
  * Update URI:  false
@@ -23,7 +25,6 @@ namespace Mahbub\WpAiExperiment;
 use Inpsyde\Modularity\Package;
 use Inpsyde\Modularity\Properties\PluginProperties;
 use Mahbub\WpAiExperiment\Example\ExampleModule;
-use Mahbub\WpAiExperiment\Translation;
 use Throwable;
 
 /**
@@ -100,6 +101,7 @@ function initialize(): void
         plugin()
             ->addModule(new ExampleModule())
             ->addModule(new Translation\Module())
+            ->addModule(new Abilities\Module())
             ->boot();
     } catch (Throwable $throwable) {
         handleException($throwable);

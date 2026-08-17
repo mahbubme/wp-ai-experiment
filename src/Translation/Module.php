@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mahbub\WpAiExperiment\Translation;
 
 use Inpsyde\Modularity\Module\ExecutableModule;
@@ -12,7 +14,7 @@ class Module implements ExecutableModule
 
     public function run(ContainerInterface $container): bool
     {
-        $textdomainCallback = fn() => load_plugin_textdomain('wp-ai-experiment');
+        $textdomainCallback = static fn () => load_plugin_textdomain('wp-ai-experiment');
 
         if (did_action('init')) {
             $textdomainCallback();
