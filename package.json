@@ -15,7 +15,7 @@
         "@wordpress/scripts": "^30.0.0",
         "ts-loader": "^9.5.0",
         "typescript": "~5.1.6",
-        "@wordpress/env": "^10.3.0"
+        "@wordpress/env": "^11.13.0"
     },
     "scripts": {
         "lint:md": "wp-scripts lint-md-docs README.md docs/**/*.md",
