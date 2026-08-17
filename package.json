@@ -1,0 +1,34 @@
+{
+    "name": "wp-ai-experiment",
+    "description": "WordPress AI experiment plugin",
+    "license": "GPL-2.0-or-later",
+    "version": "1.0.0",
+    "author": {
+        "name": "Syde GmbH",
+        "email": "hello@syde.com",
+        "url": "https://syde.com/"
+    },
+    "engines": {
+        "node": "~22.0"
+    },
+    "devDependencies": {
+        "@wordpress/scripts": "^30.0.0",
+        "ts-loader": "^9.5.0",
+        "typescript": "~5.1.6",
+        "@wordpress/env": "^10.3.0"
+    },
+    "scripts": {
+        "lint:md": "wp-scripts lint-md-docs README.md docs/**/*.md",
+        "lint:md:fix": "wp-scripts lint-md-docs README.md docs/**/*.md -- --fix",
+        "build": "wp-scripts build --experimental-modules",
+        "build:dev": "wp-scripts start --no-watch --experimental-modules",
+        "start": "wp-scripts start --experimental-modules",
+        "lint": "npm run lint:js; npm run lint:style; npm run lint:md",
+        "lint:fix": "npm run lint:js:fix; npm run lint:style:fix; npm run lint:md:fix",
+        "lint:js": "wp-scripts lint-js",
+        "lint:js:fix": "wp-scripts lint-js -- --fix",
+        "lint:style": "wp-scripts lint-style",
+        "lint:style:fix": "wp-scripts lint-style -- --fix",
+        "wp-env": "wp-env"
+    }
+}

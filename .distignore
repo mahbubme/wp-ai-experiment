@@ -1,0 +1,60 @@
+## Composer
+/composer.phar
+/vendor/
+
+## PHPUnit
+/.phpunit.result.cache
+/phpunit.xml
+/phpunit.xml.dist
+/temp/
+/tests/
+
+# PHP compatibility checker
+/php_compat
+
+# PHP QA
+/phpcs.xml
+/phpcs.xml.dist
+/phpstan.neon.dist
+
+## npm
+/node_modules/
+/npm-debug.log*
+/auth.json
+/.nvmrc
+/package.json
+/package-lock.json
+
+## Assets
+/.eslintignore
+/.eslintrc.js
+/resources/
+/.stylelintignore
+/tsconfig.json
+/webpack.config.js
+/webpack.utils.js
+
+## Logs
+*.log
+
+# TypeScript v1 declaration files
+typings/
+
+## Environment files
+.env
+
+# macOS-specific files
+.DS_Store
+
+## PhpStorm
+/.idea/
+
+## Documentation
+/docs/
+
+## Miscellaneous
+/.github/
+/.distignore
+/.gitattributes
+/syde.json
+*.tgz

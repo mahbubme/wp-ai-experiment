@@ -1,0 +1,63 @@
+{
+    "schemaVersion": "1.0",
+    "projectName": "wp-ai-experiment",
+    "packageType": "wpplugin",
+    "features": [
+        "setup-git",
+        "license",
+        "setup-php",
+        "setup-node",
+        "dependabot",
+        "php-unit-testing",
+        "textdomain-loading",
+        "build-and-distribute",
+        "assets-build",
+        "wp-env"
+    ],
+    "settings": {
+        "package": {
+            "year": "2026",
+            "type": "wpplugin",
+            "name": "wp-ai-experiment",
+            "vendor": "Mahbub",
+            "client": "",
+            "description": "WordPress AI experiment plugin",
+            "version": "1.0.0",
+            "updateURI": "false",
+            "pluginURI": "https:\/\/github.com\/inpsyde",
+            "networkPlugin": true,
+            "projectSlug": "wp-ai-experiment",
+            "vendorSlug": "mahbub",
+            "clientSlug": ""
+        },
+        "setup-git": {
+            "codeOwners": "@mahbubme"
+        },
+        "license": {
+            "type": "GPL-2.0-or-later",
+            "licenseFullName": "GNU General Public License version 2",
+            "copyrightAndLicenseText": "This package is [free software](https:\/\/www.gnu.org\/philosophy\/free-sw.en.html) distributed under\nthe terms of the GNU General Public License version 2 or (at your option) any later version. For the\nfull license, see [LICENSE](.\/LICENSE)."
+        },
+        "setup-php": {
+            "phpVersion": "8.2",
+            "privatePackagist": false,
+            "composerName": "mahbub\/wp-ai-experiment",
+            "composerType": "wordpress-plugin",
+            "composerNamespace": "Mahbub\\\\WpAiExperiment",
+            "phpNamespace": "Mahbub\\WpAiExperiment",
+            "phpVersionMatrix": [
+                "8.2",
+                "8.3",
+                "8.4",
+                "8.5"
+            ],
+            "installationCommand": "composer require mahbub\/wp-ai-experiment"
+        },
+        "assets-build": {
+            "useScriptModules": true
+        },
+        "wp-env": {
+            "wpVersion": "WordPress\/WordPress#7.0.4"
+        }
+    }
+}

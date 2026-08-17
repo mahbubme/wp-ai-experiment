@@ -1,0 +1,14 @@
+{
+    "mappings": {
+        "wp-content/plugins": ".",
+        "wp-content/uploads": "./.data/uploads"
+    },
+    "phpVersion": "8.2",
+    "config": {
+        "WP_DEBUG": true,
+        "WP_DEBUG_LOG": true,
+        "SCRIPT_DEBUG": true,
+        "WP_DEBUG_DISPLAY": true
+    },
+    "core": "WordPress/WordPress#7.0.4"
+}

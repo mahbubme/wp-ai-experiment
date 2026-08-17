@@ -1,0 +1,30 @@
+name: Build and distribute
+on:
+  push:
+    branches: [ 'dev/beta', 'dev/alpha' ]
+  workflow_dispatch:
+    inputs:
+      PACKAGE_VERSION:
+        description: 'Package Version'
+        required: false
+      BUILT_BRANCH_NAME:
+        description: 'Custom build branch name'
+        required: false
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-distribute:
+    uses: inpsyde/reusable-workflows/.github/workflows/build-and-distribute.yml@main
+    secrets:
+      COMPOSER_AUTH_JSON: ${{ secrets.PACKAGIST_AUTH_JSON }}
+      NPM_REGISTRY_TOKEN: ${{ secrets.NPM_REGISTRY_TOKEN }}
+      GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
+      GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
+      GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
+      GITHUB_USER_SSH_PUBLIC_KEY: ${{ secrets.DEPLOYBOT_SSH_PUBLIC_KEY }}
+    with:
+      PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
+      BUILT_BRANCH_NAME: ${{ inputs.BUILT_BRANCH_NAME }}
+      PHP_TOOLS: 'wp-cli'
