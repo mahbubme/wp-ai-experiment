@@ -45,6 +45,21 @@ final class Registrar
         );
     }
 
+    /**
+     * The MCP adapter needs the names on their own, without the rest of the
+     * registration payload, so they are derived here rather than restated in a
+     * second list that could drift.
+     *
+     * @return list<string>
+     */
+    public function names(): array
+    {
+        return array_map(
+            static fn (Ability $ability): string => $ability->name(),
+            $this->abilities
+        );
+    }
+
     public function registerAbilities(): void
     {
         foreach ($this->abilities as $ability) {
@@ -68,6 +83,9 @@ final class Registrar
                     // Without this the ability is invisible on wp-abilities/v1
                     // and its run route answers 404 rather than 403.
                     'show_in_rest' => true,
+                    // The MCP adapter only turns an ability into an MCP tool when it
+                    // opts in here; without it the ability stays REST-only.
+                    'mcp' => ['public' => true],
                     'annotations' => $ability->annotations(),
                 ],
             ]

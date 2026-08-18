@@ -4,6 +4,7 @@
  * Plugin Name: wp-ai-experiment
  * Plugin URI:  https://github.com/inpsyde
  * Description: WordPress AI experiment plugin
+ * Requires Plugins: mcp-adapter
  * Version:     1.0.0
  * Requires at least: 6.9
  * Requires PHP: 8.2

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "wp-abilities-admin": {
+      "command": "./bin/mcp-stdio.sh",
+      "args": ["admin"]
+    },
+    "wp-abilities-author": {
+      "command": "./bin/mcp-stdio.sh",
+      "args": ["author_bo"]
+    },
+    "wp-abilities-subscriber": {
+      "command": "./bin/mcp-stdio.sh",
+      "args": ["sub_kai"]
+    }
+  }
+}

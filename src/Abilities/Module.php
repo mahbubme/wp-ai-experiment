@@ -51,7 +51,46 @@ final class Module implements ExecutableModule, ServiceModule
             }
         );
 
+        // The adapter's default server ships three generic discovery tools and
+        // never promotes an ability on its own, so without this an agent would
+        // only reach ours through a second hop. Listing them here puts each one
+        // in the tool list under its own name and schema, which is what the
+        // descriptions and enums were written for.
+        add_filter(
+            'mcp_adapter_default_server_config',
+            static function (mixed $config) use ($container): mixed {
+                return self::withAbilityTools($config, $container);
+            }
+        );
+
         return true;
+    }
+
+    /**
+     * Kept defensive rather than typed `array $config`: this filter runs after
+     * every other subscriber, and a badly behaved one returning a non-array
+     * would otherwise fatal here instead of falling back to the adapter's own
+     * `is_array()` guard.
+     */
+    private static function withAbilityTools(mixed $config, ContainerInterface $container): mixed
+    {
+        if (!is_array($config)) {
+            return $config;
+        }
+
+        $tools = $config['tools'] ?? [];
+
+        if (!is_array($tools)) {
+            return $config;
+        }
+
+        $config['tools'] = array_values(
+            array_unique(
+                array_merge($tools, self::service($container, Registrar::class)->names())
+            )
+        );
+
+        return $config;
     }
 
     private static function registrar(ContainerInterface $psr): Registrar
