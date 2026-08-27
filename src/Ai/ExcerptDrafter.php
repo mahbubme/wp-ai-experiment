@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mahbub\WpAiExperiment\Ai;
 
 use Mahbub\WpAiExperiment\ErrorCodes;
+use WP_AI_Client_Prompt_Builder;
 use WP_Error;
 
 /**
@@ -71,33 +72,44 @@ final class ExcerptDrafter
      */
     public function draft(int $postId, int $maxWords, string $tone): array|WP_Error
     {
-        if (!$this->prompts->isAvailable()) {
-            return $this->prompts->unsupported();
-        }
-
         $context = $this->context->forPost($postId);
         if ($context instanceof WP_Error) {
             return $context;
         }
 
-        $builder = $this->prompts->create($this->userPrompt($context, $maxWords))
-            ->using_system_instruction($this->systemInstruction($tone))
-            ->using_temperature(self::TEMPERATURE)
-            ->using_max_tokens(self::MAX_TOKENS);
+        $text = $this->prompts->generateText(
+            fn (bool $tuned): WP_AI_Client_Prompt_Builder => $this->builder(
+                $context,
+                $maxWords,
+                $tone,
+                $tuned
+            )
+        );
 
-        // Asked before generating so an unconfigured site gets an actionable
-        // error instead of a provider-shaped one. This is a network-backed
-        // lookup, which is why it lives here and not in a permission callback.
-        if (!$builder->is_supported_for_text_generation()) {
-            return $this->prompts->unsupported();
-        }
-
-        $text = $builder->generate_text();
         if ($text instanceof WP_Error) {
             return $text;
         }
 
         return $this->result($postId, $context, $this->tidy($text, $maxWords), $maxWords, $tone);
+    }
+
+    /**
+     * @param PostContextData $context
+     */
+    private function builder(
+        array $context,
+        int $maxWords,
+        string $tone,
+        bool $tuned
+    ): WP_AI_Client_Prompt_Builder {
+
+        $builder = $this->prompts->create($this->userPrompt($context, $maxWords))
+            ->using_system_instruction($this->systemInstruction($tone))
+            ->using_max_tokens(self::MAX_TOKENS);
+
+        // Skipped on the retry pass: some models reject the parameter outright,
+        // and a slightly less predictable excerpt beats no excerpt at all.
+        return $tuned ? $builder->using_temperature(self::TEMPERATURE) : $builder;
     }
 
     /**

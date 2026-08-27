@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mahbub\WpAiExperiment\Ai;
 
+use WP_AI_Client_Prompt_Builder;
 use WP_Error;
 
 /**
@@ -63,26 +64,19 @@ final class ContentAnalyzer
      */
     public function analyze(int $postId, int $maxTags): array|WP_Error
     {
-        if (!$this->prompts->isAvailable()) {
-            return $this->prompts->unsupported();
-        }
-
         $context = $this->context->forPost($postId);
         if ($context instanceof WP_Error) {
             return $context;
         }
 
-        $builder = $this->prompts->create($this->userPrompt($context, $maxTags))
-            ->using_system_instruction($this->systemInstruction())
-            ->using_temperature(self::TEMPERATURE)
-            ->using_max_tokens(self::MAX_TOKENS)
-            ->as_json_response($this->replySchema());
+        $raw = $this->prompts->generateText(
+            fn (bool $tuned): WP_AI_Client_Prompt_Builder => $this->builder(
+                $context,
+                $maxTags,
+                $tuned
+            )
+        );
 
-        if (!$builder->is_supported_for_text_generation()) {
-            return $this->prompts->unsupported();
-        }
-
-        $raw = $builder->generate_text();
         if ($raw instanceof WP_Error) {
             return $raw;
         }
@@ -93,6 +87,26 @@ final class ContentAnalyzer
         }
 
         return $this->normalize($postId, $decoded, $maxTags);
+    }
+
+    /**
+     * @param PostContextData $context
+     */
+    private function builder(
+        array $context,
+        int $maxTags,
+        bool $tuned
+    ): WP_AI_Client_Prompt_Builder {
+
+        $builder = $this->prompts->create($this->userPrompt($context, $maxTags))
+            ->using_system_instruction($this->systemInstruction())
+            ->using_max_tokens(self::MAX_TOKENS)
+            ->as_json_response($this->replySchema());
+
+        // Dropped on the retry pass. Classification drifts more without it, but
+        // the reply is still schema-constrained and normalized in PHP, so the
+        // shape of the answer does not depend on this.
+        return $tuned ? $builder->using_temperature(self::TEMPERATURE) : $builder;
     }
 
     /**
