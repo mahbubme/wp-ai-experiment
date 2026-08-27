@@ -1,0 +1,47 @@
+/*
+ * Layout lives here rather than in `__experimentalVStack`/`HStack`: those are
+ * unstable APIs the project's lint config refuses, and a panel this simple only
+ * needs a column with gaps.
+ */
+.wp-ai-experiment-excerpt {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+
+	&__result {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	&__actions {
+		display: flex;
+		gap: 8px;
+	}
+
+	&__suggestion {
+		background: #f0f0f0;
+		border-radius: 2px;
+		margin: 0;
+		padding: 12px;
+	}
+
+	&__replaces,
+	&__status {
+		color: #757575;
+		font-size: 12px;
+		margin: 0;
+	}
+
+	&__status {
+		align-items: center;
+		display: flex;
+		gap: 8px;
+	}
+
+	&__replaces {
+		// A long previous excerpt should not push the buttons out of reach.
+		max-height: 4.5em;
+		overflow: hidden;
+	}
+}

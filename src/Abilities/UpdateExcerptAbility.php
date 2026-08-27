@@ -19,13 +19,15 @@ use WP_Error;
  */
 final class UpdateExcerptAbility implements Ability
 {
+    public const NAME = 'wp-ai-experiment/update-post-excerpt';
+
     public function __construct(private readonly ExcerptWriter $writer)
     {
     }
 
     public function name(): string
     {
-        return 'wp-ai-experiment/update-post-excerpt';
+        return self::NAME;
     }
 
     public function label(): string

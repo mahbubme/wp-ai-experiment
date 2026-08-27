@@ -103,6 +103,7 @@ function initialize(): void
             ->addModule(new ExampleModule())
             ->addModule(new Translation\Module())
             ->addModule(new Abilities\Module())
+            ->addModule(new Editor\Module())
             ->boot();
     } catch (Throwable $throwable) {
         handleException($throwable);

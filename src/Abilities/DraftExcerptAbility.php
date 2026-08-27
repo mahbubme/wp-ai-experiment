@@ -28,6 +28,8 @@ use WP_Error;
  */
 final class DraftExcerptAbility implements Ability
 {
+    public const NAME = 'wp-ai-experiment/draft-post-excerpt';
+
     private const DEFAULT_MAX_WORDS = 30;
 
     private const DEFAULT_TONE = 'neutral';
@@ -38,7 +40,7 @@ final class DraftExcerptAbility implements Ability
 
     public function name(): string
     {
-        return 'wp-ai-experiment/draft-post-excerpt';
+        return self::NAME;
     }
 
     public function label(): string
