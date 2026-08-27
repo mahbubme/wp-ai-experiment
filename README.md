@@ -151,8 +151,7 @@ Check your input before spending an API call on it. This reports exactly which
 property is wrong:
 
 ```shell
-wp ability validate wp-ai-experiment/draft-post-excerpt \
-  --input='{"post_id":44,"tone":"bogus"}'
+wp ability validate wp-ai-experiment/draft-post-excerpt --input='{"post_id":44,"tone":"bogus"}'
 # Error: input[tone] is not one of neutral, informative, conversational, and promotional.
 ```
 
@@ -161,8 +160,7 @@ Check whether a given user is allowed to run it. This prints nothing and exits
 checks actually bite:
 
 ```shell
-wp ability can-run wp-ai-experiment/update-post-excerpt \
-  --input='{"post_id":44,"excerpt":"x"}' --user=admin
+wp ability can-run wp-ai-experiment/update-post-excerpt --input='{"post_id":44,"excerpt":"x"}' --user=admin
 ```
 
 Run one. Start with the ability that needs no AI provider, so you are testing the
@@ -176,12 +174,10 @@ Then the full draft-and-apply cycle:
 
 ```shell
 # Ask for a suggestion. Nothing is saved.
-wp ability run wp-ai-experiment/draft-post-excerpt \
-  --input='{"post_id":44,"max_words":25,"tone":"informative"}' --user=admin
+wp ability run wp-ai-experiment/draft-post-excerpt --input='{"post_id":44,"max_words":25,"tone":"informative"}' --user=admin
 
 # Apply one once you are happy with it.
-wp ability run wp-ai-experiment/update-post-excerpt \
-  --input='{"post_id":44,"excerpt":"The excerpt text."}' --user=admin
+wp ability run wp-ai-experiment/update-post-excerpt --input='{"post_id":44,"excerpt":"The excerpt text."}' --user=admin
 ```
 
 `--user` matters: every ability checks capabilities, and without it WP-CLI runs
