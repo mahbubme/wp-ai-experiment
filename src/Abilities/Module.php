@@ -7,6 +7,11 @@ namespace Mahbub\WpAiExperiment\Abilities;
 use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
+use Mahbub\WpAiExperiment\Ai\ContentAnalyzer;
+use Mahbub\WpAiExperiment\Ai\ExcerptDrafter;
+use Mahbub\WpAiExperiment\Ai\JsonReply;
+use Mahbub\WpAiExperiment\Ai\PostContext;
+use Mahbub\WpAiExperiment\Ai\PromptFactory;
 use Mahbub\WpAiExperiment\Content\ContentQuery;
 use Mahbub\WpAiExperiment\Content\ExcerptWriter;
 use Mahbub\WpAiExperiment\Site\SiteSnapshot;
@@ -29,6 +34,22 @@ final class Module implements ExecutableModule, ServiceModule
             SiteSnapshot::class => static fn (): SiteSnapshot => new SiteSnapshot(),
             ContentQuery::class => static fn (): ContentQuery => new ContentQuery(),
             ExcerptWriter::class => static fn (): ExcerptWriter => new ExcerptWriter(),
+            PromptFactory::class => static fn (): PromptFactory => new PromptFactory(),
+            PostContext::class => static fn (): PostContext => new PostContext(),
+            JsonReply::class => static fn (): JsonReply => new JsonReply(),
+            ExcerptDrafter::class => static function (ContainerInterface $psr): ExcerptDrafter {
+                return new ExcerptDrafter(
+                    self::service($psr, PromptFactory::class),
+                    self::service($psr, PostContext::class)
+                );
+            },
+            ContentAnalyzer::class => static function (ContainerInterface $psr): ContentAnalyzer {
+                return new ContentAnalyzer(
+                    self::service($psr, PromptFactory::class),
+                    self::service($psr, PostContext::class),
+                    self::service($psr, JsonReply::class)
+                );
+            },
             Registrar::class => static function (ContainerInterface $psr): Registrar {
                 return self::registrar($psr);
             },
@@ -98,7 +119,9 @@ final class Module implements ExecutableModule, ServiceModule
         return new Registrar(
             new SiteSummaryAbility(self::service($psr, SiteSnapshot::class)),
             new FindContentAbility(self::service($psr, ContentQuery::class)),
-            new UpdateExcerptAbility(self::service($psr, ExcerptWriter::class))
+            new UpdateExcerptAbility(self::service($psr, ExcerptWriter::class)),
+            new DraftExcerptAbility(self::service($psr, ExcerptDrafter::class)),
+            new AnalyzeContentAbility(self::service($psr, ContentAnalyzer::class))
         );
     }
 

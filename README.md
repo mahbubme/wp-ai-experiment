@@ -17,13 +17,17 @@ The best way to use this package is:
 composer require mahbub/wp-ai-experiment
 ```
 
-Requires WordPress 6.9 or newer, since it builds on the Abilities API in core.
+Requires WordPress 7.0 or newer: it builds on the Abilities API and on the PHP AI
+Client SDK that core bundles.
 
 ## Documentation
 
-* [Abilities](./docs/abilities.md) - the ability category and three abilities this
+* [Abilities](./docs/abilities.md) - the ability category and five abilities this
   plugin registers, the Abilities API behaviour worth knowing before adding more,
   and how abilities project into the REST API and AI tool calling.
+* [AI workflows](./docs/ai-workflows.md) - the two AI-powered workflows this plugin
+  runs on core's bundled PHP AI Client SDK, how they stay provider-agnostic, and how to
+  connect a provider.
 * [Local development](./docs/local-development.md)
 
 ## Copyright and License

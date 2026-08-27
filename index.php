@@ -6,7 +6,7 @@
  * Description: WordPress AI experiment plugin
  * Requires Plugins: mcp-adapter
  * Version:     1.0.0
- * Requires at least: 6.9
+ * Requires at least: 7.0
  * Requires PHP: 8.2
  * Author:      Syde GmbH
  * Author URI:  https://syde.com/
